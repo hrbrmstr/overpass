@@ -56,18 +56,18 @@ bbox_to_string <- function(bbox) {
       if (all(rownames(bbox) %in% c("x", "y")    ) &
           all(colnames(bbox) %in% c("min", "max"))) {
         bbox <- c(bbox["x", "min"], bbox["y", "min"], bbox["x", "max"], bbox["y", "max"])
-        bbox <- paste0(bbox, collapse=",")
+        bbox <- paste0(bbox[c(2,1,4,3)], collapse=",")
       } else if (all(rownames(bbox) %in% c("coords.x1", "coords.x2")) &
                  all(colnames(bbox) %in% c("min", "max"))) {
         bbox <- c(bbox["x", "coords.x1"], bbox["y", "coords.x1"], bbox["x", "coords.x2"], bbox["y", "coords.x2"])
-        bbox <- paste0(bbox, collapse=",")
+        bbox <- paste0(bbox[c(2,1,4,3)], collapse=",")
       }
     } else {
       if (length(bbox) > 1 & length(bbox) == 4) {
         if (all(names(bbox) %in% c("left", "bottom", "right", "top"))) {
-          bbox <- paste0(bbox[c("left", "bottom", "right", "top")], collapse=",")
+          bbox <- paste0(bbox[c("bottom", "left", "top", "right")], collapse=",")
         } else {
-          bbox <- paste0(bbox, collapse=",")
+          bbox <- paste0(bbox[c(2,1,4,3)], collapse=",")
         }
       }
     }
