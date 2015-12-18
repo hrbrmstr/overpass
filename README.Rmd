@@ -125,6 +125,7 @@ plot(awy)
 ```{r from_robin, eval=FALSE}
 # more complex example from Robin: motorways surrounding London
 # warning: may take a few minutes to run
+bb_lnd <- nominatim::bb_lookup("Greater London, UK")
 from_robin <- '[out:xml][timeout:100];
 (
   node["highway"="motorway"](51.24,-0.61,51.73,0.41);
