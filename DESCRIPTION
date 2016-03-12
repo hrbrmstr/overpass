@@ -7,12 +7,24 @@ Authors@R: c(
     )
 Maintainer: Bob Rudis <bob@rudis.net>
 Description: Query the OSM Overpass API and retrieve "Spatial" objects.
-Depends: R (>= 3.0.0)
+Depends:
+    R (>= 3.0.0)
 License: MIT + file LICENSE
 LazyData: true
-Suggests: testthat,
+Suggests:
+    testthat,
     knitr,
     RJSONIO,
     ggmap
-Imports: fastmatch, pbapply, sp, xml2, httr, dplyr, utils, tidyr, rvest
+Imports:
+    fastmatch,
+    pbapply,
+    sp,
+    xml2,
+    httr,
+    dplyr,
+    utils,
+    tidyr,
+    rvest
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1
