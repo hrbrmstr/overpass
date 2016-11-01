@@ -11,20 +11,25 @@ overpass_status <- function(quiet=FALSE) {
 
   status <- httr::GET("http://overpass-api.de/api/status")
   status <- httr::content(status)
-  status_now <- strsplit(status, "\n")[[1]][3]
+  status_now <- strsplit(status, "\n")[[1]][4]
 
   if (!quiet) message(status_now)
-
+print(status_now)
   if (grepl("after", status_now)) {
     available <- FALSE
-    slot_time <- lubridate::ymd_hms(gsub("Slot available after: ", "", status_now))
-    slot_time <- lubridate::force_tz(slot_time, tz = Sys.timezone())
+    status_now <- gsub("Slot available after: ", "", status_now)
+    status_now <- gsub(", in.*", "", status_now)
+    slot_time <- lubridate::ymd_hms(status_now)
+    current_time <- strsplit(status, "\n")[[1]][2]
+    current_time <- lubridate::ymd_hms(gsub("Current time: ", "", current_time))
+
+    waiting_time <- difftime(current_time, slot_time, units = "secs")
   } else {
     available <- TRUE
-    slot_time <- Sys.time()
+    waiting_time <- 0
   }
 
-  return(invisible(list(available=available, next_slot=slot_time, msg=status)))
+  return(invisible(list(available=available, waiting_time=waiting_time, msg=status)))
 
 }
 
@@ -93,7 +98,7 @@ overpass_query <- function(query, quiet=FALSE, wait=TRUE, pad_wait=5) {
     make_query(query, quiet)
   } else {
     if (wait) {
-       wait <- max(0, as.numeric(difftime(o_stat$next_slot, Sys.time(), units = "secs"))) +
+       wait <- o_stat$waiting_time +
          pad_wait
        message(sprintf("Waiting %s seconds", wait))
        Sys.sleep(wait)
