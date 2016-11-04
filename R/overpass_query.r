@@ -23,7 +23,7 @@ print(status_now)
     current_time <- strsplit(status, "\n")[[1]][2]
     current_time <- lubridate::ymd_hms(gsub("Current time: ", "", current_time))
 
-    waiting_time <- difftime(current_time, slot_time, units = "secs")
+    waiting_time <- difftime(slot_time, current_time, units = "secs")
   } else {
     available <- TRUE
     waiting_time <- 0
